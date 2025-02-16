@@ -1,0 +1,16 @@
+{
+  "name": "Águia Oficial",
+  "short_name": "Águia",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#4ADA38",
+  "theme_color": "#4ADA38",
+  "description": "Águia Oficial é o melhor site de apostas online do Brasil.",
+  "icons": [
+    {
+      "src": "/aguiaoficial.png",
+      "sizes": "250x160",
+      "type": "image/png"
+    }
+  ]
+}
