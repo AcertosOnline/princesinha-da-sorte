@@ -271,7 +271,9 @@
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        installSection.style.display = 'block';
+        if (!window.matchMedia('(display-mode: standalone)').matches) {
+            installSection.style.display = 'block';
+        }
     });
 
     // Função para iniciar a instalação do PWA
@@ -297,6 +299,11 @@
     window.addEventListener('appinstalled', () => {
         installSection.classList.add('hidden');
     });
+
+    // Oculta a seção se já estiver no modo standalone (PWA instalado)
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+        installSection.classList.add('hidden');
+    }
 
 	    
   if ('serviceWorker' in navigator) {
