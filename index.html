@@ -169,9 +169,47 @@
     display: none !important;
 }
 
+
+
+        #banner-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        #banner img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        #close-banner {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+	    
     </style>
 </head>
 <body>
+
+<div id="banner-container">
+    <div id="banner">
+        <img src="banner.jpg" alt="Banner de Boas-Vindas">
+        <button id="close-banner">Fechar</button>
+    </div>
+</div>	
     <header>
         <h1>Águia Oficial - O Melhor Site de Apostas Online do Brasil</h1>
     </header>
@@ -317,6 +355,27 @@
         });
     });
   }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const bannerContainer = document.getElementById('banner-container');
+        const closeBanner = document.getElementById('close-banner');
+
+        // Verifica se é a primeira visita
+        if (!localStorage.getItem('bannerShown')) {
+            setTimeout(() => {
+                bannerContainer.style.display = 'flex';
+            }, 5000);
+
+            // Marca que o banner já foi exibido
+            localStorage.setItem('bannerShown', 'true');
+        }
+
+        // Fecha o banner
+        closeBanner.addEventListener('click', () => {
+            bannerContainer.style.display = 'none';
+        });
+    });
+	    
 </script>
 </body>
 </html>
