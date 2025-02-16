@@ -165,31 +165,6 @@
             margin-bottom: 4px;
             color: #333;
         }
-	    #install-pwa {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-}
-
-#install-pwa img {
-    width: 50px;
-    height: 50px;
-    margin-bottom: 10px;
-}
-
-#install-pwa a {
-    text-decoration: none;
-    color: white;
-    background-color: #28a745;
-    padding: 10px 20px;
-    border-radius: 5px;
-}
-
-/* Classe para ocultar o botão */
-.hidden {
-    display: none;
-}
     </style>
 </head>
 <body>
@@ -244,28 +219,17 @@
                 </a>
             </div>
         </div>
-
-
-
-	    
+    
         <div class="menu-item" id="install-section">
-		
-    <!-- Botão para instalar o app -->
-    <div id="install-pwa">
-        <img src="icone-app.png" alt="Ícone do App">
-        <a href="#" id="install-link">Instalar o App</a>
-    </div>
-		
+            <div class="menu-item-container" onclick="window.location.href='#';">
+                <img src="cassino.png" alt="Instalar App" id="install-image">
+                <a href="#" id="install-pwa">
+                    <i class="fas fa-download"></i> Instalar o App
+                </a>
+            </div>
         </div>
-
-
-
-
-
-
-	    
+   
     </div>
-
     <script>
         // Abrir em tela cheia automaticamente
         document.addEventListener('DOMContentLoaded', () => {
@@ -295,38 +259,37 @@
         menuIcon.addEventListener('click', toggleMenu);
         overlay.addEventListener('click', toggleMenu);
 
-// Variável para verificar se o PWA está instalado
-let isPWAInstalled = false;
+        // Instalar PWA
+        let deferredPrompt;
+        const installButton = document.getElementById('install-pwa');
+        const installSection = document.getElementById('install-section');
+        const installImage = document.getElementById('install-image');
 
-// Função para verificar se o PWA já foi instalado
-function checkIfPWAInstalled() {
-    // Verifica se o site está rodando em modo standalone (PWA instalado)
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-        isPWAInstalled = true;
-    }
-}
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installSection.style.display = 'block';
+        });
 
-// Função para ocultar o botão de instalação
-function hideInstallButton() {
-    const installButton = document.getElementById('install-pwa');
-    if (isPWAInstalled && installButton) {
-        installButton.classList.add('hidden');
-    }
-}
+        installButton.addEventListener('click', () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('Usuário instalou o PWA');
+                        installSection.classList.add('hidden'); // Oculta a seção após instalação
+                    } else {
+                        console.log('Instalação rejeitada');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        });
 
-// Executa as verificações ao carregar a página
-window.addEventListener('load', () => {
-    checkIfPWAInstalled();
-    hideInstallButton();
-});
-
-// Monitora mudanças no modo de exibição (caso o usuário instale o PWA enquanto usa o site)
-window.matchMedia('(display-mode: standalone)').addEventListener('change', (evt) => {
-    if (evt.matches) {
-        isPWAInstalled = true;
-        hideInstallButton();
-    }
-});
+        // Ocultar seção de instalação se o PWA já estiver instalado
+        window.addEventListener('appinstalled', () => {
+            installSection.classList.add('hidden');
+        });
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
