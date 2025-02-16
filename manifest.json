@@ -7,10 +7,15 @@
   "theme_color": "#4ADA38",
   "description": "Águia Oficial é o melhor site de apostas online do Brasil.",
   "icons": [
-    {
-      "src": "/aguiaoficial.png",
-      "sizes": "250x160",
-      "type": "image/png"
-    }
+        {
+            "src": "icons/icon192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/icon512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
   ]
 }
